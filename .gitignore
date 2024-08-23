@@ -1,0 +1,5 @@
+.rag-env
+chromadb/*
+scrap/
+.env
+__pycache__/
