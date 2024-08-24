@@ -5,9 +5,9 @@ from retrieve_create import generate_youtube_link
 import logging
 
 app = Flask(__name__)
-# CORS(app, resources={r"/process": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
+CORS(app, resources={r"/process": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
 # CORS(app, resources={r"/*": {"origins": "*"}})
-CORS(app)
+# CORS(app)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -48,5 +48,5 @@ def process_request():
         logger.exception("An error occurred while processing the request.")
         return jsonify({"error": "An internal error occurred."}), 500
 
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=8080, debug=True)
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8080, debug=True)
