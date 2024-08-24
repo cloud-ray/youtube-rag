@@ -5,8 +5,9 @@ from retrieve_create import generate_youtube_link
 import logging
 
 app = Flask(__name__)
-CORS(app, resources={r"/process": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
+# CORS(app, resources={r"/process": {"origins": ["http://localhost:8080", "http://127.0.0.1:8080"]}})
 # CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
