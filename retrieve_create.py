@@ -6,6 +6,7 @@ from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_core.pydantic_v1 import BaseModel, Field
 from langchain_core.prompts import PromptTemplate
+from langchain import hub
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -61,11 +62,35 @@ def initialize_retriever(vector_store):
     )
 
 # Function to define the prompt template
+# def create_prompt_template():
+#     return PromptTemplate(
+#         # template="Answer the user query and give a detailed explanation to the reasoning for your 'answer'. You MUST provide the 'start' value associated to the best answer\n{format_instructions}\nContext: {context}\nQuestion: {question}\n",
+#         template="Provide the user with a detailed explanation to their question. You MUST provide the 'start' value associated to the best answer\n{format_instructions}\nContext: {context}\nQuestion: {question}\n",
+#         input_variables=["question", "context"],
+#         partial_variables={"format_instructions": JsonOutputParser(pydantic_object=VisionTaskOutput).get_format_instructions()},
+#     )
+
 def create_prompt_template():
+    # Fetch the prompt object from the hub
+    prompt_object = hub.pull("cloudray/youtube-rag")
+
+    # Extract the PromptTemplate from the messages list
+    prompt_template = prompt_object.messages[0].prompt
+
+    # Extract the template string
+    template_string = prompt_template.template
+
+    # Print type and content for debugging
+    print("Type of template_string:", type(template_string))
+    print("Content of template_string:", template_string)
+    
+    # Define the PromptTemplate with the fetched template string and additional variables
     return PromptTemplate(
-        template="Answer the user query and give a detailed explanation to the reasoning for your 'answer'. You MUST provide the 'start' value associated to the best answer\n{format_instructions}\nContext: {context}\nQuestion: {question}\n",
+        template=template_string,
         input_variables=["question", "context"],
-        partial_variables={"format_instructions": JsonOutputParser(pydantic_object=VisionTaskOutput).get_format_instructions()},
+        partial_variables={
+            "format_instructions": JsonOutputParser(pydantic_object=VisionTaskOutput).get_format_instructions()
+        },
     )
 
 # Function to format the documents and extract video_id
