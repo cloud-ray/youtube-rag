@@ -1,3 +1,3 @@
 # gunicorn_config.py
-bind = "localhost:8080"
+bind = "0.0.0.0:8080"
 workers = 4
