@@ -10,7 +10,7 @@ document.getElementById('queryForm').addEventListener('submit', function(event) 
     const video_id = document.getElementById('video_id').value;
     const user_question = document.getElementById('user_question').value;
 
-    fetch('http://127.0.0.1:8080/process', {
+    fetch('https://youtube-rag-dhiw.onrender.com/process', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
